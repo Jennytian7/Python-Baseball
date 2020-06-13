@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from data import games
-from frames import  info, events
+from frames import  games, info, events
 
 # plays = games.query( games['type']=='play' &  ~games['event'].str.contains('NP'))
 plays = games.query("type == 'play' & event != 'NP'")
