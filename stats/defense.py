@@ -27,11 +27,11 @@ events_plus_pa = pd.merge( events, pa, how = 'outer', left_on =['year', 'game_id
 #10 Merge - Team
 defense = pd.merge(events_plus_pa, info)
 #11 Calculate DER
-defense.loc[:, 'DER'] = 1 - ((dense['H'] + dense['ROE']) / (dense['PA'] - dense['BB'] -dense['SO'] - dense['HBP'] - dense['HR']))
-dense.loc[:, 'year'] = pd.to_numeric(dense.loc[:, 'year'])
+defense.loc[:, 'DER'] = 1 - ((defense['H'] + defense['ROE']) / (defense['PA'] - defense['BB'] -defense['SO'] - defense['HBP'] - defense['HR']))
+dense.loc[:, 'year'] = pd.to_numeric(dense['year'])
 #12 Reshape With Pivot
 der = dense.loc[ defense['year'] >=  1978. ['year', 'defense', 'DER'] ]
 der = der.pivot(index ='year', columns ='defense', values = 'DER')
 #13 Plot Formatting - xticks
-plt.plot(der, x_compat = True, sticks =range(1978, 2018, 4), rot=45)
+der.plot(x_compat = True, sticks =range(1978, 2018, 4), rot=45)
 plt.show()
