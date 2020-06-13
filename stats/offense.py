@@ -11,7 +11,8 @@ hits = plays.loc[plays['event'].str.contains('^(?:S(?!B)|D|T|HR)'), ['inning', '
 # plays[plays['event'].str.contains('K')]
 
 #3 Convert Column Type
-hits.loc[:, 'inning'] = hits.loc[:, 'inning'].apply(pd.to_numeric)
+# hits.loc[:, 'inning'] = hits.loc[:, 'inning'].apply(pd.to_numeric) #apply used for multiple col
+hits.loc[:, 'inning'] = pd.to_numeric(hits.loc[:, 'inning'])
 
 #4 Replace Dictionary
 replacements = {r'^S(.*)': 'single',
@@ -31,9 +32,9 @@ hits = hits.assign(hit_type=hit_type) #(new col name, new col)
 # Reassign the new resulting DataFrame to hits.
 
 #7 Group By Inning and Hit Type
-hits = hits.groupby(['inning', 'hit_type']).size()
-
-hits = hits.reset_index(name='count')#grouby to dataframe
+hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
+# hits = hits.groupby(['inning', 'hit_type']).size()
+# hits = hits.reset_index(name='count')#grouby to dataframe
 
 #8 Convert Hit Type to Categorical
 hits['hit_type'] = pd.Categorical(hits['hit_type'], ['single', 'double', 'triple', 'hr'])
@@ -43,7 +44,7 @@ hits = hits.sort_values(by =['inning', 'hit_type'])
 
 # 10 Reshape With Pivot
 #We need to reshape the hits DataFrame for plotting.
-hits.pivot(index='inning', columns='hit_type', values='count')
+hits = hits.pivot(index='inning', columns='hit_type', values='count')
 
 #11 Stacked Bar Plot
 hits.plot.bar(stacked = True)
