@@ -40,7 +40,8 @@ hits = hits.groupby(['inning', 'hit_type']).size().reset_index(name='count')
 hits['hit_type'] = pd.Categorical(hits['hit_type'], ['single', 'double', 'triple', 'hr'])
 
 # 9 Sort Values
-hits = hits.sort_values(by =['inning', 'hit_type'])
+# hits = hits.sort_values(by =['inning', 'hit_type'])
+hits = hits.sort_values(['inning', 'hit_type'])
 
 # 10 Reshape With Pivot
 #We need to reshape the hits DataFrame for plotting.
